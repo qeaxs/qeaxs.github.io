@@ -142,8 +142,19 @@
   .review details { border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
   .review summary { cursor: pointer; font-weight: 600; }
   .review p { margin: 8px 0 0; font-size: .95rem; }
+  .qr { display: flex; gap: 20px; align-items: center; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+  .qr img { flex: none; border-radius: 8px; background: #fff; padding: 6px; }
+  .qr p { margin: 4px 0 0; }
+  a { color: var(--accent); }
   footer { margin-top: 24px; font-size: .85rem; color: var(--muted); }
 
+  /* Auf dem Handy: QR-Code ausblenden, große Tippflächen */
+  @media (max-width: 600px) {
+    .qr { display: none; }
+    .option { padding: 14px; min-height: 52px; }
+    #startBtn, #nextBtn, #restartBtn, #retryWrongBtn { width: 100%; padding: 14px 16px; }
+    .row > label.inline { width: 100%; justify-content: space-between; }
+  }
   @media (max-width: 480px) {
     main { padding-top: 20px; }
     .card { padding: 18px; }
@@ -162,14 +173,22 @@
     <div class="row">
       <label class="inline">Anzahl Fragen
         <select id="count">
-          <option value="10">10</option>
-          <option value="20" selected>20</option>
-          <option value="all">Alle</option>
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="15">15</option>
         </select>
       </label>
       <button class="primary" id="startBtn">Quiz starten</button>
     </div>
     <p class="muted" id="poolInfo" style="margin-top:12px"></p>
+    <div class="qr">
+      <img src="qr.svg" alt="QR-Code zum Quiz" width="148" height="148">
+      <div>
+        <strong>Mit dem eigenen Handy mitmachen</strong>
+        <p class="muted">QR-Code mit der Handy-Kamera scannen oder diese Adresse eingeben:</p>
+        <p><a href="https://qeaxs.github.io/bankkaufmann-quiz/">qeaxs.github.io/bankkaufmann-quiz</a></p>
+      </div>
+    </div>
   </section>
 
   <!-- Fragebildschirm -->
