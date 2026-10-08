@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bankkaufmann-Praktikanten-Quiz</title>
+<meta name="description" content="Wissensquiz für Praktikantinnen und Praktikanten im Berufsfeld Bankkaufmann/Bankkauffrau: Konto, Zahlungsverkehr, Geldanlage, Kredit, Recht und Sicherheit.">
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --card: #ffffff;
+    --text: #1b2330;
+    --muted: #5b6676;
+    --border: #dde2e9;
+    --accent: #0b5cad;
+    --accent-text: #ffffff;
+    --accent-soft: #e6f0fa;
+    --ok: #1d7a46;
+    --ok-soft: #e4f4ea;
+    --bad: #b3261e;
+    --bad-soft: #fbe9e7;
+    --shadow: 0 1px 2px rgba(16, 24, 40, .06), 0 4px 16px rgba(16, 24, 40, .06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #10141a;
+      --card: #1a2029;
+      --text: #e7ecf2;
+      --muted: #9aa6b5;
+      --border: #2d3644;
+      --accent: #5aa3ec;
+      --accent-text: #0b1420;
+      --accent-soft: #1b2c40;
+      --ok: #5cc98a;
+      --ok-soft: #173225;
+      --bad: #f08a80;
+      --bad-soft: #3a1d1b;
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #10141a;
+    --card: #1a2029;
+    --text: #e7ecf2;
+    --muted: #9aa6b5;
+    --border: #2d3644;
+    --accent: #5aa3ec;
+    --accent-text: #0b1420;
+    --accent-soft: #1b2c40;
+    --ok: #5cc98a;
+    --ok-soft: #173225;
+    --bad: #f08a80;
+    --bad-soft: #3a1d1b;
+    --shadow: none;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+  h1 { font-size: 1.75rem; line-height: 1.25; margin: 0 0 8px; }
+  h2 { font-size: 1.25rem; line-height: 1.35; margin: 0 0 16px; }
+  p { margin: 0 0 12px; }
+  .muted { color: var(--muted); }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .hidden { display: none !important; }
+
+  button {
+    font: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    padding: 10px 16px;
+  }
+  button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .primary { background: var(--accent); border-color: var(--accent); color: var(--accent-text); font-weight: 600; }
+  .primary:disabled { opacity: .45; cursor: not-allowed; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0 20px; }
+  .chip {
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: .9rem;
+  }
+  .chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--text); }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  label.inline { display: inline-flex; gap: 8px; align-items: center; color: var(--muted); }
+  select { font: inherit; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); }
+
+  .progress-meta { display: flex; justify-content: space-between; font-size: .9rem; color: var(--muted); margin-bottom: 8px; gap: 12px; }
+  .bar { height: 6px; background: var(--border); border-radius: 999px; overflow: hidden; margin-bottom: 20px; }
+  .bar > span { display: block; height: 100%; background: var(--accent); width: 0; transition: width .25s ease; }
+  .tag { display: inline-block; font-size: .8rem; font-weight: 600; color: var(--accent); margin-bottom: 8px; letter-spacing: .02em; text-transform: uppercase; }
+
+  .options { display: grid; gap: 10px; margin-bottom: 16px; }
+  .option {
+    text-align: left;
+    width: 100%;
+    padding: 12px 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .option:hover:not(:disabled) { border-color: var(--accent); }
+  .option:disabled { cursor: default; }
+  .option .key {
+    flex: none;
+    width: 26px; height: 26px;
+    border-radius: 6px;
+    display: grid; place-items: center;
+    font-size: .85rem; font-weight: 700;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .option.correct { border-color: var(--ok); background: var(--ok-soft); }
+  .option.correct .key { background: var(--ok); color: var(--card); }
+  .option.wrong { border-color: var(--bad); background: var(--bad-soft); }
+  .option.wrong .key { background: var(--bad); color: var(--card); }
+
+  .feedback { border-radius: 8px; padding: 12px 14px; margin-bottom: 16px; border-left: 4px solid; }
+  .feedback.ok { background: var(--ok-soft); border-color: var(--ok); }
+  .feedback.bad { background: var(--bad-soft); border-color: var(--bad); }
+  .feedback strong { display: block; margin-bottom: 4px; }
+
+  .score { font-size: 3rem; font-weight: 700; line-height: 1; margin: 8px 0; font-variant-numeric: tabular-nums; }
+  .cat-list { list-style: none; padding: 0; margin: 16px 0 24px; display: grid; gap: 10px; }
+  .cat-list li { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; font-size: .95rem; }
+  .cat-list .bar { grid-column: 1 / -1; margin: 0; }
+  .review { margin-top: 24px; display: grid; gap: 12px; }
+  .review details { border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; }
+  .review summary { cursor: pointer; font-weight: 600; }
+  .review p { margin: 8px 0 0; font-size: .95rem; }
+  footer { margin-top: 24px; font-size: .85rem; color: var(--muted); }
+
+  @media (max-width: 480px) {
+    main { padding-top: 20px; }
+    .card { padding: 18px; }
+    h1 { font-size: 1.45rem; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <!-- Startbildschirm -->
+  <section id="start" class="card">
+    <h1>Quiz für Praktikanten: Bankkaufmann/-frau</h1>
+    <p class="muted">Teste dein Grundwissen rund um den Bankalltag – von Konto und Zahlungsverkehr über Geldanlage und Kredit bis zu Recht und Sicherheit. Nach jeder Frage gibt es eine kurze Erklärung.</p>
+    <p><strong>Themen auswählen:</strong></p>
+    <div class="chips" id="chips"></div>
+    <div class="row">
+      <label class="inline">Anzahl Fragen
+        <select id="count">
+          <option value="10">10</option>
+          <option value="20" selected>20</option>
+          <option value="all">Alle</option>
+        </select>
+      </label>
+      <button class="primary" id="startBtn">Quiz starten</button>
+    </div>
+    <p class="muted" id="poolInfo" style="margin-top:12px"></p>
+  </section>
+
+  <!-- Fragebildschirm -->
+  <section id="quiz" class="card hidden" aria-live="polite">
+    <div class="progress-meta"><span id="progressText"></span><span id="scoreText"></span></div>
+    <div class="bar"><span id="progressBar"></span></div>
+    <span class="tag" id="qCat"></span>
+    <h2 id="qText"></h2>
+    <div class="options" id="options"></div>
+    <div id="feedback" class="feedback hidden"></div>
+    <div class="row" style="justify-content:flex-end">
+      <button class="primary hidden" id="nextBtn">Weiter</button>
+    </div>
+  </section>
+
+  <!-- Ergebnis -->
+  <section id="result" class="card hidden">
+    <h1>Dein Ergebnis</h1>
+    <div class="score" id="finalScore"></div>
+    <p id="verdict"></p>
+    <ul class="cat-list" id="catStats"></ul>
+    <div class="row">
+      <button class="primary" id="restartBtn">Neues Quiz</button>
+      <button id="retryWrongBtn">Nur falsche wiederholen</button>
+    </div>
+    <div class="review" id="review"></div>
+  </section>
+
+  <footer>Stand: Oktober 2026. Die Fragen dienen dem Lernen im Praktikum und ersetzen keine Beratung oder Ausbildungsunterlagen.</footer>
+</main>
+
+<script>
+const QUESTIONS = [
+  // --- Konto & Zahlungsverkehr ---
+  { c: "Konto & Zahlungsverkehr", q: "Wie viele Zeichen hat eine deutsche IBAN?",
+    o: ["18", "20", "22", "24"], a: 2,
+    e: "Eine deutsche IBAN hat 22 Stellen: Ländercode DE, 2 Prüfziffern, 8-stellige Bankleitzahl und 10-stellige Kontonummer." },
+  { c: "Konto & Zahlungsverkehr", q: "Wofür steht die Abkürzung SEPA?",
+    o: ["Single Euro Payments Area", "Secure European Payment Agreement", "Standard Euro Processing Account", "Single European Price Authority"], a: 0,
+    e: "SEPA = Single Euro Payments Area, der einheitliche Euro-Zahlungsverkehrsraum mit einheitlichen Verfahren für Überweisung und Lastschrift." },
+  { c: "Konto & Zahlungsverkehr", q: "Innerhalb welcher Frist kann ein Kunde eine autorisierte SEPA-Basislastschrift ohne Angabe von Gründen zurückgeben lassen?",
+    o: ["14 Tage", "8 Wochen", "6 Monate", "13 Monate"], a: 1,
+    e: "Bei einer autorisierten SEPA-Basislastschrift gilt eine Erstattungsfrist von 8 Wochen ab Belastung. Bei einer nicht autorisierten Lastschrift (kein Mandat) sind es 13 Monate." },
+  { c: "Konto & Zahlungsverkehr", q: "Was prüft die seit Oktober 2025 vorgeschriebene „Empfängerüberprüfung“ (Verification of Payee) bei SEPA-Überweisungen?",
+    o: ["Ob das Konto des Empfängers gedeckt ist", "Ob der eingegebene Empfängername zur IBAN passt", "Ob der Empfänger auf einer Sanktionsliste steht", "Ob der Betrag über 10.000 € liegt"], a: 1,
+    e: "Die Bank des Zahlers gleicht vor der Ausführung den eingegebenen Empfängernamen mit dem Kontoinhaber der IBAN ab und meldet „passt“, „passt fast“ oder „passt nicht“. Das soll Betrug und Fehlüberweisungen verhindern." },
+  { c: "Konto & Zahlungsverkehr", q: "Wie schnell muss eine SEPA-Echtzeitüberweisung (Instant Payment) beim Empfänger gutgeschrieben sein?",
+    o: ["Innerhalb von 10 Sekunden", "Innerhalb einer Stunde", "Am selben Geschäftstag", "Am nächsten Geschäftstag"], a: 0,
+    e: "Echtzeitüberweisungen werden rund um die Uhr ausgeführt; das Geld ist innerhalb von maximal 10 Sekunden beim Empfänger." },
+  { c: "Konto & Zahlungsverkehr", q: "Was ist ein Pfändungsschutzkonto (P-Konto)?",
+    o: ["Ein Konto, das nicht überzogen werden kann", "Ein Girokonto, auf dem ein monatlicher Grundfreibetrag vor Pfändung geschützt ist", "Ein Sparkonto für Kinder", "Ein Treuhandkonto für Anwälte"], a: 1,
+    e: "Auf einem P-Konto bleibt ein gesetzlicher Grundfreibetrag pro Kalendermonat vor Pfändungen geschützt, damit der Kunde seinen Lebensunterhalt bestreiten kann. Jede Person darf nur ein P-Konto haben." },
+  { c: "Konto & Zahlungsverkehr", q: "Was regelt das Zahlungskontengesetz zum „Basiskonto“?",
+    o: ["Jeder Verbraucher mit rechtmäßigem Aufenthalt in der EU hat Anspruch auf ein Girokonto mit Grundfunktionen", "Basiskonten sind immer kostenlos", "Basiskonten dürfen nur Volljährige eröffnen", "Basiskonten erhalten automatisch einen Dispo"], a: 0,
+    e: "Das Basiskonto bietet Grundfunktionen (Ein-/Auszahlung, Überweisung, Lastschrift, Karte). Banken dürfen dafür ein angemessenes Entgelt verlangen; einen Dispositionskredit gibt es nicht." },
+  { c: "Konto & Zahlungsverkehr", q: "Wie wird ein Girokonto üblicherweise in der Bankbilanz ausgewiesen, wenn es ein Guthaben aufweist?",
+    o: ["Als Forderung an Kunden (Aktiva)", "Als Verbindlichkeit gegenüber Kunden (Passiva)", "Als Eigenkapital", "Gar nicht, da es Kundengeld ist"], a: 1,
+    e: "Kundenguthaben schuldet die Bank ihren Kunden – sie stehen daher als Verbindlichkeiten auf der Passivseite. Kredite an Kunden sind dagegen Forderungen (Aktiva)." },
+
+  // --- Geldanlage ---
+  { c: "Geldanlage", q: "Was erwirbt ein Anleger mit dem Kauf einer Aktie?",
+    o: ["Eine Forderung gegenüber dem Unternehmen", "Einen Anteil am Unternehmen (Eigenkapital)", "Einen festen Zinsanspruch", "Ein Pfandrecht am Firmengebäude"], a: 1,
+    e: "Aktionäre sind Miteigentümer. Sie erhalten ggf. Dividenden und haben Stimmrechte (bei Stammaktien). Anleihegläubiger haben dagegen eine Forderung (Fremdkapital)." },
+  { c: "Geldanlage", q: "Wie viele Unternehmen sind im DAX gelistet?",
+    o: ["30", "40", "50", "100"], a: 1,
+    e: "Seit September 2021 umfasst der DAX 40 Unternehmen (vorher 30)." },
+  { c: "Geldanlage", q: "Was beschreibt das „magische Dreieck“ der Geldanlage?",
+    o: ["Zins, Tilgung, Laufzeit", "Rentabilität, Sicherheit, Liquidität", "Aktie, Anleihe, Fonds", "Inflation, Steuern, Gebühren"], a: 1,
+    e: "Rentabilität, Sicherheit und Liquidität stehen in einem Zielkonflikt: Keine Anlage erfüllt alle drei Ziele gleichzeitig optimal." },
+  { c: "Geldanlage", q: "Was ist ein ETF?",
+    o: ["Ein aktiv gemanagter Immobilienfonds", "Ein börsengehandelter Fonds, der meist einen Index abbildet", "Eine Unternehmensanleihe mit fester Laufzeit", "Ein Termingeschäft auf Rohstoffe"], a: 1,
+    e: "ETF = Exchange Traded Fund. Er wird an der Börse gehandelt und bildet in der Regel passiv einen Index (z. B. MSCI World) ab – mit meist geringen Kosten." },
+  { c: "Geldanlage", q: "Wie hoch ist der Steuersatz der Abgeltungsteuer auf Kapitalerträge (ohne Soli und Kirchensteuer)?",
+    o: ["15 %", "19 %", "25 %", "42 %"], a: 2,
+    e: "Die Abgeltungsteuer beträgt 25 %, zzgl. 5,5 % Solidaritätszuschlag darauf und ggf. Kirchensteuer." },
+  { c: "Geldanlage", q: "Wie hoch ist der Sparerpauschbetrag für eine alleinstehende Person pro Jahr?",
+    o: ["801 €", "1.000 €", "1.602 €", "2.000 €"], a: 1,
+    e: "Seit 2023 sind 1.000 € (Zusammenveranlagte: 2.000 €) Kapitalerträge pro Jahr steuerfrei – über einen Freistellungsauftrag bei der Bank." },
+  { c: "Geldanlage", q: "Was bedeutet „Diversifikation“?",
+    o: ["Das gesamte Geld in eine besonders sichere Aktie investieren", "Das Risiko durch Streuung auf verschiedene Anlagen verringern", "Gewinne regelmäßig auszahlen lassen", "Anlagen nur in Fremdwährung halten"], a: 1,
+    e: "Wer auf viele Titel, Branchen, Regionen und Anlageklassen streut, verringert das Risiko, dass ein einzelner Verlust das ganze Vermögen trifft." },
+  { c: "Geldanlage", q: "Ein Kunde legt 1.000 € für 2 Jahre zu 3 % p. a. mit Zinseszins an. Wie hoch ist das Guthaben am Ende?",
+    o: ["1.060,00 €", "1.060,90 €", "1.030,00 €", "1.090,00 €"], a: 1,
+    e: "1.000 € × 1,03 × 1,03 = 1.060,90 €. Im zweiten Jahr werden auch die Zinsen des ersten Jahres (30 €) mitverzinst." },
+  { c: "Geldanlage", q: "Bis zu welchem Betrag sind Einlagen pro Kunde und Bank durch die gesetzliche Einlagensicherung in der EU geschützt?",
+    o: ["20.000 €", "50.000 €", "100.000 €", "250.000 €"], a: 2,
+    e: "Die gesetzliche Einlagensicherung schützt 100.000 € pro Kunde und Bank (in Sonderfällen vorübergehend bis 500.000 €). Viele Institute sind zusätzlich über freiwillige oder institutsbezogene Sicherungssysteme abgesichert." },
+  { c: "Geldanlage", q: "Was muss die Bank einem Privatkunden nach einer Anlageberatung zu Wertpapieren aushändigen?",
+    o: ["Eine Geeignetheitserklärung", "Einen Kreditvertrag", "Eine SCHUFA-Auskunft", "Ein Depotkündigungsschreiben"], a: 0,
+    e: "Nach MiFID II / WpHG muss die Bank vor Vertragsschluss eine Geeignetheitserklärung erstellen, die erklärt, warum die Empfehlung zu Zielen, Risikobereitschaft und Kenntnissen des Kunden passt." },
+
+  // --- Kredit ---
+  { c: "Kredit", q: "Was ist ein Dispositionskredit?",
+    o: ["Ein Ratenkredit für den Autokauf", "Ein eingeräumter Überziehungsrahmen auf dem Girokonto", "Ein Kredit für Unternehmensgründungen", "Ein Immobiliendarlehen"], a: 1,
+    e: "Der „Dispo“ erlaubt es, das Girokonto bis zu einem vereinbarten Limit zu überziehen. Er ist flexibel, aber meist deutlich teurer als ein Ratenkredit." },
+  { c: "Kredit", q: "Welcher Zinssatz zeigt die Gesamtkosten eines Verbraucherkredits pro Jahr inklusive bestimmter Nebenkosten?",
+    o: ["Sollzins", "Leitzins", "Effektiver Jahreszins", "Habenzins"], a: 2,
+    e: "Der effektive Jahreszins enthält neben dem Sollzins auch bestimmte Kosten (z. B. Bearbeitungsentgelte) und macht Angebote vergleichbar." },
+  { c: "Kredit", q: "Was ist eine Grundschuld?",
+    o: ["Eine Steuer auf Grundstücke", "Ein im Grundbuch eingetragenes Pfandrecht an einer Immobilie als Kreditsicherheit", "Die monatliche Rate eines Baukredits", "Ein Mietvertrag zwischen Bank und Kunde"], a: 1,
+    e: "Die Grundschuld ist die häufigste Sicherheit bei Baufinanzierungen. Sie ist – anders als die Hypothek – nicht an eine bestimmte Forderung gebunden." },
+  { c: "Kredit", q: "Was macht ein Bürge?",
+    o: ["Er verwaltet das Konto des Kreditnehmers", "Er verpflichtet sich, für die Schulden eines anderen einzustehen", "Er schätzt den Wert einer Immobilie", "Er vermittelt Kredite gegen Provision"], a: 1,
+    e: "Mit der Bürgschaft haftet der Bürge gegenüber der Bank, wenn der Hauptschuldner nicht zahlt. Bei der selbstschuldnerischen Bürgschaft kann die Bank sofort auf den Bürgen zugreifen." },
+  { c: "Kredit", q: "Wozu dient eine SCHUFA-Auskunft bei der Kreditvergabe?",
+    o: ["Zur Ermittlung des Einkommens", "Zur Einschätzung der Kreditwürdigkeit (Bonität) anhand gespeicherter Vertragsdaten", "Zur Prüfung der Staatsangehörigkeit", "Zur Berechnung der Kreditzinsen durch die SCHUFA"], a: 1,
+    e: "Die SCHUFA speichert Informationen zu Krediten, Konten und Zahlungsverhalten und liefert einen Score. Die Kreditentscheidung trifft aber immer die Bank selbst." },
+  { c: "Kredit", q: "Wie lange hat ein Verbraucher bei einem Verbraucherdarlehen grundsätzlich ein Widerrufsrecht?",
+    o: ["7 Tage", "14 Tage", "1 Monat", "Es gibt kein Widerrufsrecht"], a: 1,
+    e: "Verbraucherdarlehen können innerhalb von 14 Tagen nach Vertragsschluss und Erhalt aller Pflichtangaben ohne Begründung widerrufen werden." },
+  { c: "Kredit", q: "Was versteht man bei einem Annuitätendarlehen unter der „Annuität“?",
+    o: ["Den Zinsanteil im ersten Jahr", "Die gleichbleibende Rate aus Zins und Tilgung", "Die Restschuld am Ende der Zinsbindung", "Die Sondertilgung"], a: 1,
+    e: "Die Rate bleibt gleich; mit der Zeit sinkt der Zinsanteil und der Tilgungsanteil steigt, weil die Restschuld kleiner wird." },
+
+  // --- Recht & Aufsicht ---
+  { c: "Recht & Aufsicht", q: "Welche Behörde beaufsichtigt in Deutschland Banken gemeinsam mit der Deutschen Bundesbank?",
+    o: ["Bundeskartellamt", "BaFin", "Statistisches Bundesamt", "Bundeszentralamt für Steuern"], a: 1,
+    e: "Die Bundesanstalt für Finanzdienstleistungsaufsicht (BaFin) arbeitet mit der Bundesbank zusammen. Große Banken werden zusätzlich direkt von der EZB beaufsichtigt." },
+  { c: "Recht & Aufsicht", q: "Welche Hauptaufgabe hat die Europäische Zentralbank (EZB)?",
+    o: ["Gewinnmaximierung", "Preisniveaustabilität im Euroraum sichern", "Kredite an Privatkunden vergeben", "Steuern erheben"], a: 1,
+    e: "Vorrangiges Ziel der EZB ist Preisstabilität – angestrebt wird mittelfristig eine Inflationsrate von 2 %. Wichtigstes Instrument sind die Leitzinsen." },
+  { c: "Recht & Aufsicht", q: "Was muss eine Bank nach dem Geldwäschegesetz bei einer Kontoeröffnung immer tun?",
+    o: ["Den Kunden anhand eines gültigen Ausweisdokuments identifizieren", "Eine SCHUFA-Auskunft einholen", "Eine Mindesteinzahlung verlangen", "Den Arbeitgeber des Kunden informieren"], a: 0,
+    e: "Die Identifizierung (Know Your Customer) ist Pflicht – z. B. per Personalausweis oder Reisepass, auch per Video- oder eID-Verfahren. Zudem wird der wirtschaftlich Berechtigte geklärt." },
+  { c: "Recht & Aufsicht", q: "Ein Mitarbeiter bemerkt Auffälligkeiten, die auf Geldwäsche hindeuten. Was ist richtig?",
+    o: ["Den Kunden darauf ansprechen und warnen", "Den Fall intern an den Geldwäschebeauftragten melden – ohne den Kunden zu informieren", "Nichts tun, solange der Betrag unter 10.000 € liegt", "Das Konto sofort eigenständig kündigen"], a: 1,
+    e: "Verdachtsfälle werden intern an den Geldwäschebeauftragten gemeldet, der eine Meldung an die FIU (Financial Intelligence Unit) erstattet. Den Kunden zu warnen („Tipping-off“) ist verboten." },
+  { c: "Recht & Aufsicht", q: "Was bedeutet das Bankgeheimnis?",
+    o: ["Banken müssen ihre Zinssätze geheim halten", "Die Bank darf Informationen über Kunden nur mit deren Einwilligung oder aufgrund gesetzlicher Pflicht weitergeben", "Kunden dürfen ihren Kontostand nicht erfahren", "Banken dürfen keine Steuerdaten melden"], a: 1,
+    e: "Das Bankgeheimnis ist eine vertragliche Verschwiegenheitspflicht. Es gilt auch für Praktikanten! Gesetzliche Auskunftspflichten (z. B. gegenüber Finanzbehörden oder Strafverfolgung) gehen vor." },
+  { c: "Recht & Aufsicht", q: "Ein 15-Jähriger möchte ein Girokonto eröffnen. Was ist nötig?",
+    o: ["Nichts – ab 14 ist man voll geschäftsfähig", "Die Zustimmung der gesetzlichen Vertreter (meist beide Eltern)", "Eine Genehmigung des Jugendamts", "Ein eigenes Einkommen"], a: 1,
+    e: "Minderjährige ab 7 Jahren sind beschränkt geschäftsfähig. Für die Kontoeröffnung braucht es die Zustimmung der Erziehungsberechtigten; ein Dispo ist ausgeschlossen." },
+  { c: "Recht & Aufsicht", q: "Was ist eine Kontovollmacht „über den Tod hinaus“ (transmortal)?",
+    o: ["Eine Vollmacht, die erst nach dem Tod des Kontoinhabers gilt", "Eine Vollmacht, die zu Lebzeiten gilt und nach dem Tod des Kontoinhabers weiter wirksam bleibt", "Eine Vollmacht, die mit dem Tod automatisch erlischt", "Ein Testament"], a: 1,
+    e: "Der Bevollmächtigte kann dann auch nach dem Tod handeln, bis die Erben die Vollmacht widerrufen. Eine „postmortale“ Vollmacht gilt erst ab dem Tod." },
+
+  // --- Sicherheit & Service ---
+  { c: "Sicherheit & Service", q: "Ein Anrufer gibt sich als Mitarbeiter der IT-Abteilung aus und fragt nach deinem Passwort. Wie reagierst du?",
+    o: ["Passwort nennen, die IT darf das wissen", "Passwort nicht herausgeben und den Vorfall der IT-Sicherheit melden", "Nur die ersten Zeichen nennen", "Das Passwort per E-Mail schicken"], a: 1,
+    e: "Das ist typisches Social Engineering. Passwörter werden niemals weitergegeben – auch nicht an die eigene IT. Verdachtsfälle immer melden." },
+  { c: "Sicherheit & Service", q: "Ein Kunde erzählt, „seine Bank“ habe ihn per SMS aufgefordert, eine TAN für die „Kontoaktualisierung“ einzugeben. Was ist das wahrscheinlich?",
+    o: ["Ein üblicher Sicherheitsprozess", "Ein Phishing-Versuch", "Eine gesetzlich vorgeschriebene Prüfung", "Eine Werbeaktion"], a: 1,
+    e: "Banken fragen nie per SMS, E-Mail oder Telefon nach PIN, TAN oder Zugangsdaten. Der Kunde sollte nichts eingeben, ggf. den Zugang sperren lassen und den Vorfall melden." },
+  { c: "Sicherheit & Service", q: "Welche Nummer ist der zentrale Sperr-Notruf für verlorene Karten in Deutschland?",
+    o: ["110", "116 116", "112", "0800 123 456"], a: 1,
+    e: "Unter 116 116 können Bank- und Kreditkarten rund um die Uhr gesperrt werden – zusätzlich zur Sperrhotline der eigenen Bank." },
+  { c: "Sicherheit & Service", q: "Was bedeutet „Zwei-Faktor-Authentifizierung“ (starke Kundenauthentifizierung) beim Online-Banking?",
+    o: ["Man braucht zwei Passwörter", "Die Anmeldung kombiniert zwei unabhängige Faktoren aus Wissen, Besitz und Inhärenz", "Zwei Mitarbeiter müssen jede Überweisung freigeben", "Man meldet sich zweimal am Tag an"], a: 1,
+    e: "Nach der PSD2 kombiniert die starke Kundenauthentifizierung zwei Faktoren: Wissen (PIN/Passwort), Besitz (Smartphone, TAN-Generator) oder Inhärenz (Fingerabdruck, Gesicht)." },
+  { c: "Sicherheit & Service", q: "Ein Kunde ist verärgert über eine Gebühr. Was ist der beste erste Schritt?",
+    o: ["Auf die AGB verweisen und das Gespräch beenden", "Aktiv zuhören, Verständnis zeigen und den Sachverhalt klären", "Die Gebühr sofort eigenmächtig erstatten", "Den Kunden an eine andere Filiale verweisen"], a: 1,
+    e: "Erst zuhören und den Sachverhalt verstehen – dann eine Lösung im Rahmen der eigenen Befugnisse suchen oder an die zuständige Person weitergeben." },
+
+  // --- Ausbildung & Beruf ---
+  { c: "Ausbildung & Beruf", q: "Wie lange dauert die Ausbildung zum Bankkaufmann/zur Bankkauffrau regulär?",
+    o: ["2 Jahre", "3 Jahre (Verkürzung oft möglich)", "4 Jahre", "18 Monate"], a: 1,
+    e: "Die duale Ausbildung dauert regulär 3 Jahre; mit Abitur oder guten Leistungen wird sie häufig auf 2,5 Jahre oder weniger verkürzt." },
+  { c: "Ausbildung & Beruf", q: "Wer nimmt die Abschlussprüfung zum Bankkaufmann/zur Bankkauffrau ab?",
+    o: ["Die BaFin", "Die Industrie- und Handelskammer (IHK)", "Die Bundesbank", "Die ausbildende Bank selbst"], a: 1,
+    e: "Die Prüfung findet vor der IHK statt und besteht aus einem schriftlichen Teil und einem mündlichen Kundenberatungsgespräch." },
+  { c: "Ausbildung & Beruf", q: "Welche Säulen bilden das Bankensystem in Deutschland („Drei-Säulen-Modell“)?",
+    o: ["Privatbanken, Sparkassen/öffentlich-rechtliche Institute, Genossenschaftsbanken", "Zentralbank, Geschäftsbanken, Versicherungen", "Direktbanken, Filialbanken, Neobanken", "Bausparkassen, Hypothekenbanken, Börsen"], a: 0,
+    e: "Private Geschäftsbanken (z. B. Großbanken), öffentlich-rechtliche Institute (Sparkassen, Landesbanken) und Genossenschaftsbanken (Volks- und Raiffeisenbanken)." },
+  { c: "Ausbildung & Beruf", q: "Was versteht man unter „Cross-Selling“ in der Bank?",
+    o: ["Den Verkauf von Bankfilialen", "Einem Bestandskunden passende weitere Produkte anbieten", "Devisenhandel zwischen zwei Währungen", "Den Weiterverkauf von Krediten an andere Banken"], a: 1,
+    e: "Beispiel: Ein Kunde mit Girokonto erhält ein passendes Angebot für einen Sparplan oder eine Kreditkarte – bedarfsorientiert, nicht aufgedrängt." },
+  { c: "Ausbildung & Beruf", q: "Was beschreibt die Inflationsrate?",
+    o: ["Den Anstieg der Aktienkurse", "Die prozentuale Veränderung des allgemeinen Preisniveaus", "Die Höhe der Leitzinsen", "Den Anteil der Staatsschulden am BIP"], a: 1,
+    e: "Steigen die Preise, verliert Geld an Kaufkraft. Deshalb ist der Realzins (Nominalzins minus Inflation) für Sparer entscheidend." },
+];
+
+const $ = (id) => document.getElementById(id);
+const CATEGORIES = [...new Set(QUESTIONS.map(q => q.c))];
+const selected = new Set(CATEGORIES);
+let round = [], idx = 0, score = 0, answers = [];
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function renderChips() {
+  const box = $("chips");
+  box.innerHTML = "";
+  CATEGORIES.forEach(cat => {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.type = "button";
+    b.textContent = `${cat} (${QUESTIONS.filter(q => q.c === cat).length})`;
+    b.setAttribute("aria-pressed", selected.has(cat));
+    b.onclick = () => {
+      selected.has(cat) ? selected.delete(cat) : selected.add(cat);
+      b.setAttribute("aria-pressed", selected.has(cat));
+      updatePool();
+    };
+    box.appendChild(b);
+  });
+  updatePool();
+}
+
+function pool() { return QUESTIONS.filter(q => selected.has(q.c)); }
+
+function updatePool() {
+  const n = pool().length;
+  $("poolInfo").textContent = n ? `${n} Fragen in der Auswahl.` : "Bitte mindestens ein Thema auswählen.";
+  $("startBtn").disabled = n === 0;
+}
+
+function show(id) {
+  ["start", "quiz", "result"].forEach(s => $(s).classList.toggle("hidden", s !== id));
+  window.scrollTo({ top: 0 });
+}
+
+function startRound(questions) {
+  // Antwortoptionen mischen, korrekte Antwort mitführen
+  round = shuffle(questions).map(q => {
+    const order = shuffle(q.o.map((_, i) => i));
+    return { ...q, o: order.map(i => q.o[i]), a: order.indexOf(q.a) };
+  });
+  idx = 0; score = 0; answers = [];
+  show("quiz");
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = round[idx];
+  $("progressText").textContent = `Frage ${idx + 1} von ${round.length}`;
+  $("scoreText").textContent = `${score} richtig`;
+  $("progressBar").style.width = `${(idx / round.length) * 100}%`;
+  $("qCat").textContent = q.c;
+  $("qText").textContent = q.q;
+  $("feedback").className = "feedback hidden";
+  $("nextBtn").classList.add("hidden");
+  const box = $("options");
+  box.innerHTML = "";
+  q.o.forEach((text, i) => {
+    const b = document.createElement("button");
+    b.className = "option";
+    b.type = "button";
+    b.innerHTML = `<span class="key">${"ABCD"[i]}</span><span></span>`;
+    b.lastChild.textContent = text;
+    b.onclick = () => answer(i);
+    box.appendChild(b);
+  });
+  box.firstChild.focus({ preventScroll: true });
+}
+
+function answer(choice) {
+  const q = round[idx];
+  const correct = choice === q.a;
+  if (correct) score++;
+  answers.push({ q, choice, correct });
+  [...$("options").children].forEach((b, i) => {
+    b.disabled = true;
+    if (i === q.a) b.classList.add("correct");
+    else if (i === choice) b.classList.add("wrong");
+  });
+  const fb = $("feedback");
+  fb.className = "feedback " + (correct ? "ok" : "bad");
+  fb.innerHTML = `<strong>${correct ? "Richtig!" : "Leider falsch."}</strong><span></span>`;
+  fb.lastChild.textContent = (correct ? "" : `Richtig ist: ${q.o[q.a]}. `) + q.e;
+  $("scoreText").textContent = `${score} richtig`;
+  const next = $("nextBtn");
+  next.textContent = idx + 1 < round.length ? "Weiter" : "Ergebnis anzeigen";
+  next.classList.remove("hidden");
+  next.focus({ preventScroll: true });
+}
+
+function next() {
+  idx++;
+  idx < round.length ? renderQuestion() : showResult();
+}
+
+function showResult() {
+  const pct = Math.round((score / round.length) * 100);
+  $("finalScore").textContent = `${score} / ${round.length}`;
+  $("verdict").textContent =
+    pct >= 90 ? `${pct} % – hervorragend! Du bist bestens auf den Bankalltag vorbereitet.` :
+    pct >= 70 ? `${pct} % – sehr gut! Nur ein paar Lücken, die du im Praktikum schließen kannst.` :
+    pct >= 50 ? `${pct} % – solide Basis. Schau dir die Erklärungen unten noch einmal an.` :
+                `${pct} % – guter Start! Frag im Praktikum ruhig nach, dafür ist es da.`;
+
+  const stats = $("catStats");
+  stats.innerHTML = "";
+  [...new Set(answers.map(a => a.q.c))].forEach(cat => {
+    const list = answers.filter(a => a.q.c === cat);
+    const ok = list.filter(a => a.correct).length;
+    const li = document.createElement("li");
+    li.innerHTML = `<span></span><span class="muted">${ok}/${list.length}</span><div class="bar"><span style="width:${(ok / list.length) * 100}%"></span></div>`;
+    li.firstChild.textContent = cat;
+    stats.appendChild(li);
+  });
+
+  const wrong = answers.filter(a => !a.correct);
+  $("retryWrongBtn").classList.toggle("hidden", wrong.length === 0);
+
+  const review = $("review");
+  review.innerHTML = wrong.length ? "<h2>Zum Nachlesen</h2>" : "";
+  wrong.forEach(a => {
+    const d = document.createElement("details");
+    d.innerHTML = "<summary></summary><p></p><p class='muted'></p>";
+    d.querySelector("summary").textContent = a.q.q;
+    d.querySelectorAll("p")[0].textContent = `Deine Antwort: ${a.q.o[a.choice]} · Richtig: ${a.q.o[a.q.a]}`;
+    d.querySelectorAll("p")[1].textContent = a.q.e;
+    review.appendChild(d);
+  });
+  show("result");
+}
+
+// Originalfragen aus der gemischten Runde wiederfinden (Optionen neu mischen)
+function originalOf(q) { return QUESTIONS.find(o => o.q === q.q); }
+
+$("startBtn").onclick = () => {
+  const p = pool();
+  const n = $("count").value === "all" ? p.length : Math.min(+$("count").value, p.length);
+  startRound(shuffle(p).slice(0, n));
+};
+$("nextBtn").onclick = next;
+$("restartBtn").onclick = () => show("start");
+$("retryWrongBtn").onclick = () => startRound(answers.filter(a => !a.correct).map(a => originalOf(a.q)));
+
+document.addEventListener("keydown", (e) => {
+  if ($("quiz").classList.contains("hidden")) return;
+  const i = "abcd".indexOf(e.key.toLowerCase());
+  const opts = $("options").children;
+  if (i >= 0 && i < opts.length && !opts[i].disabled) { opts[i].click(); }
+});
+
+renderChips();
+</script>
+</body>
+</html>
