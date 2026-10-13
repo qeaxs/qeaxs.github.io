@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Room Tour Bayer 89</title>
+<meta name="description" content="Virtuelle Room Tour – Einzelzimmer im Vi Vadi Hotel Bayer 89, München">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f3ee; --surface:#ffffff; --ink:#1d2433; --muted:#6b6f78;
+  --navy:#1f2a44; --wood:#b9824a; --wood-soft:#efe3d4; --line:#e6ded3;
+  --shadow:0 18px 40px -22px rgba(31,42,68,.35);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#13161d; --surface:#1b1f29; --ink:#ecebe7; --muted:#a2a5ad;
+    --navy:#c9d3ea; --wood:#d6a26c; --wood-soft:#2a2520; --line:#2b303b;
+    --shadow:0 18px 40px -22px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#13161d; --surface:#1b1f29; --ink:#ecebe7; --muted:#a2a5ad;
+  --navy:#c9d3ea; --wood:#d6a26c; --wood-soft:#2a2520; --line:#2b303b;
+  --shadow:0 18px 40px -22px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+img{display:block;width:100%;height:100%;object-fit:cover}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;font-weight:600;line-height:1.15;letter-spacing:-.01em}
+
+/* language toggle */
+[data-lang="en"] .de,[data-lang="de"] .en{display:none}
+.lang{position:fixed;top:14px;right:14px;z-index:20;display:flex;background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-radius:999px;padding:3px;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.lang button{border:0;background:none;font:600 13px Inter,sans-serif;padding:6px 12px;border-radius:999px;color:#1f2a44;cursor:pointer}
+.lang button[aria-pressed="true"]{background:#1f2a44;color:#fff}
+
+/* hero */
+.hero{position:relative;min-height:92vh;display:flex;align-items:flex-end;color:#fff;overflow:hidden}
+.hero img{position:absolute;inset:0}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,14,24,.15) 0%,rgba(10,14,24,.25) 45%,rgba(10,14,24,.85) 100%)}
+.hero-inner{position:relative;z-index:1;width:100%;max-width:1040px;margin:0 auto;padding:0 20px 56px}
+.eyebrow{font:600 12px Inter,sans-serif;letter-spacing:.18em;text-transform:uppercase;opacity:.85}
+.hero h1{font-size:clamp(40px,8vw,76px);margin:10px 0 14px}
+.hero p{max-width:560px;font-size:18px;opacity:.92}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.chip{border:1px solid rgba(255,255,255,.45);border-radius:999px;padding:6px 14px;font-size:14px;backdrop-filter:blur(6px);background:rgba(255,255,255,.08)}
+
+/* tour nav */
+.nav{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav ol{list-style:none;display:flex;gap:6px;overflow-x:auto;max-width:1040px;margin:0 auto;padding:10px 16px;scrollbar-width:none}
+.nav ol::-webkit-scrollbar{display:none}
+.nav a{display:flex;align-items:center;gap:8px;white-space:nowrap;text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;padding:6px 12px;border-radius:999px;transition:.2s}
+.nav b{font-weight:inherit}
+.nav a span{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--wood-soft);color:var(--wood);font-size:12px;font-weight:600}
+.nav a.active{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+
+/* stops */
+main{max-width:1040px;margin:0 auto;padding:0 20px}
+.stop{padding:72px 0 8px;scroll-margin-top:56px}
+.stop-head{display:grid;grid-template-columns:auto 1fr;gap:4px 18px;align-items:baseline;margin-bottom:22px}
+.num{grid-row:span 2;font:600 52px/1 Fraunces,serif;color:var(--wood)}
+.stop h2{font-size:clamp(28px,4.5vw,40px)}
+.stop .lead{color:var(--muted);max-width:620px;font-size:17px}
+.grid{display:grid;gap:10px;grid-template-columns:repeat(2,1fr)}
+.grid figure{border-radius:18px;overflow:hidden;box-shadow:var(--shadow);aspect-ratio:4/3;cursor:zoom-in;background:var(--line)}
+.grid figure.wide{grid-column:1/-1;aspect-ratio:16/10}
+.grid figure img{transition:transform .6s ease}
+.grid figure:hover img{transform:scale(1.03)}
+.feats{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.feat{display:inline-flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:14px}
+.feat svg{width:18px;height:18px;stroke:var(--wood);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* closing */
+.closing{margin:88px 0 40px;background:var(--navy);color:var(--bg);border-radius:24px;padding:44px 28px;text-align:center}
+.closing h2{font-size:clamp(28px,4.5vw,40px);margin-bottom:10px}
+.closing p{max-width:520px;margin:0 auto;opacity:.85}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:0 20px 40px}
+
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:50;background:rgba(8,10,16,.94);display:none;align-items:center;justify-content:center;padding:16px}
+.lb.open{display:flex}
+.lb img{max-width:min(1200px,100%);max-height:86vh;width:auto;height:auto;object-fit:contain;border-radius:12px}
+.lb button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;width:46px;height:46px;border-radius:50%;font-size:22px;cursor:pointer}
+.lb .x{top:16px;right:16px}.lb .p{left:12px;top:50%}.lb .n{right:12px;top:50%}
+.lb .cap{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#ddd;font-size:14px}
+
+@media (max-width:640px){
+  .grid{gap:8px}
+  .grid figure{border-radius:14px}
+  .num{font-size:40px}
+  .stop{padding-top:56px}
+  .hero{min-height:86vh}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body data-lang="de">
+
+<div class="lang" role="group" aria-label="Sprache / Language">
+  <button data-set="de" aria-pressed="true">DE</button>
+  <button data-set="en" aria-pressed="false">EN</button>
+</div>
+
+<header class="hero">
+  <img src="img/lounge.jpg" alt="">
+  <div class="hero-inner">
+    <div class="eyebrow"><span class="de">Room Tour · München</span><span class="en">Room Tour · Munich</span></div>
+    <h1>Bayer 89</h1>
+    <p class="de">Komm mit auf einen kurzen Rundgang – vom Eingang an der Bayerstraße über Lounge und Restaurant bis in dein Einzelzimmer.</p>
+    <p class="en">Join a short walk-through – from the entrance on Bayerstraße through the lounge and restaurant, all the way to your single room.</p>
+    <div class="chips">
+      <span class="chip"><span class="de">Einzelbett</span><span class="en">Single bed</span></span>
+      <span class="chip"><span class="de">Eigenes Bad</span><span class="en">Private bathroom</span></span>
+      <span class="chip"><span class="de">Lounge &amp; Restaurant</span><span class="en">Lounge &amp; restaurant</span></span>
+      <span class="chip"><span class="de">Zentrale Lage</span><span class="en">Central location</span></span>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Tour">
+  <ol>
+    <li><a href="#ankunft"><span>1</span><b class="de">Ankunft</b><b class="en">Arrival</b></a></li>
+    <li><a href="#empfang"><span>2</span><b class="de">Empfang</b><b class="en">Reception</b></a></li>
+    <li><a href="#lounge"><span>3</span><b class="de">Lounge</b><b class="en">Lounge</b></a></li>
+    <li><a href="#restaurant"><span>4</span><b class="de">Restaurant &amp; Bar</b><b class="en">Restaurant &amp; bar</b></a></li>
+    <li><a href="#zimmer"><span>5</span><b class="de">Dein Zimmer</b><b class="en">Your room</b></a></li>
+    <li><a href="#bad"><span>6</span><b class="de">Bad</b><b class="en">Bathroom</b></a></li>
+  </ol>
+</nav>
+
+<main>
+  <section class="stop" id="ankunft">
+    <div class="stop-head">
+      <div class="num">01</div>
+      <h2><span class="de">Ankunft</span><span class="en">Arrival</span></h2>
+      <p class="lead de">Die helle Fassade an der Bayerstraße 89 ist kaum zu übersehen – über dem Eingang steht „Vi Vadi Hotel Bayer 89“. Die Tram hält direkt vor der Tür.</p>
+      <p class="lead en">You can't miss the bright façade at Bayerstraße 89 – look for “Vi Vadi Hotel Bayer 89” above the entrance. The tram runs right past the door.</p>
+    </div>
+    <div class="grid">
+      <figure class="wide"><img src="img/exterior.jpg" alt="Fassade des Hotels an der Bayerstraße"></figure>
+    </div>
+  </section>
+
+  <section class="stop" id="empfang">
+    <div class="stop-head">
+      <div class="num">02</div>
+      <h2><span class="de">Empfang</span><span class="en">Reception</span></h2>
+      <p class="lead de">Warmes Altholz, gemütliche Sitzecke: Hier beginnt dein Aufenthalt. Am Empfang erhältst du alles für deinen Check-in.</p>
+      <p class="lead en">Reclaimed wood and a cosy seating corner: this is where your stay begins. The reception desk takes care of your check-in.</p>
+    </div>
+    <div class="grid">
+      <figure class="wide"><img src="img/lobby.jpg" alt="Empfang mit Holzwand und Bayer-89-Logo"></figure>
+    </div>
+  </section>
+
+  <section class="stop" id="lounge">
+    <div class="stop-head">
+      <div class="num">03</div>
+      <h2><span class="de">Lounge</span><span class="en">Lounge</span></h2>
+      <p class="lead de">Großzügig, hell und mit viel Holz – ideal zum Ankommen, Lesen oder für ein Gespräch nach einem langen Tag in der Stadt.</p>
+      <p class="lead en">Spacious, bright and full of warm wood – perfect for unwinding, reading or a chat after a long day in the city.</p>
+    </div>
+    <div class="grid">
+      <figure class="wide"><img src="img/lounge.jpg" alt="Lounge mit Sesseln und Holztischen"></figure>
+    </div>
+  </section>
+
+  <section class="stop" id="restaurant">
+    <div class="stop-head">
+      <div class="num">04</div>
+      <h2><span class="de">Restaurant &amp; Bar</span><span class="en">Restaurant &amp; bar</span></h2>
+      <p class="lead de">Kaminfeuer, Kerzenlicht und weiß eingedeckte Tische – dazu eine Bar mit Lounge-Sesseln. Abends besonders stimmungsvoll.</p>
+      <p class="lead en">Fireplace, candlelight and white-linen tables – plus a bar with lounge chairs. Especially atmospheric in the evening.</p>
+    </div>
+    <div class="grid">
+      <figure class="wide"><img src="img/dining1.jpg" alt="Tisch am Kamin mit Kerze"></figure>
+      <figure><img src="img/dining2.jpg" alt="Restaurant"></figure>
+      <figure><img src="img/dining3.jpg" alt="Bar mit Sesseln"></figure>
+      <figure><img src="img/dining4.jpg" alt="Gedeckte Tische"></figure>
+      <figure><img src="img/dining5.jpg" alt="Restaurant mit Kamin"></figure>
+    </div>
+  </section>
+
+  <section class="stop" id="zimmer">
+    <div class="stop-head">
+      <div class="num">05</div>
+      <h2><span class="de">Dein Zimmer</span><span class="en">Your room</span></h2>
+      <p class="lead de">Ruhig, hell und durchdacht: ein bequemes Einzelbett, bodenlange Vorhänge zum Abdunkeln und ein eigener Schreibtisch zum Arbeiten.</p>
+      <p class="lead en">Calm, bright and well thought out: a comfortable single bed, floor-length blackout curtains and your own desk to get work done.</p>
+    </div>
+    <div class="grid">
+      <figure class="wide"><img src="img/bed1.jpg" alt="Einzelzimmer mit Bett und Vorhängen"></figure>
+      <figure><img src="img/bed2.jpg" alt="Schreibtisch und Bett"></figure>
+      <figure><img src="img/bed3.jpg" alt="Schreibtisch mit Telefon und TV"></figure>
+    </div>
+    <div class="feats">
+      <span class="feat"><svg viewBox="0 0 24 24"><path d="M3 18v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6M3 18h18M3 14h18M7 10V7a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3"/></svg><span class="de">Einzelbett</span><span class="en">Single bed</span></span>
+      <span class="feat"><svg viewBox="0 0 24 24"><path d="M4 10h16M6 10v9M18 10v9M3 6h18v4H3z"/></svg><span class="de">Schreibtisch</span><span class="en">Desk</span></span>
+      <span class="feat"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8"/></svg><span class="de">Flachbild-TV</span><span class="en">Flat-screen TV</span></span>
+      <span class="feat"><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg><span class="de">Telefon</span><span class="en">Telephone</span></span>
+      <span class="feat"><svg viewBox="0 0 24 24"><path d="M3 4h18v16H3zM9 4v16M15 4v16"/></svg><span class="de">Verdunkelungsvorhänge</span><span class="en">Blackout curtains</span></span>
+      <span class="feat"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M12 3v18M10 11v2M14 11v2"/></svg><span class="de">Kleiderschrank</span><span class="en">Wardrobe</span></span>
+    </div>
+  </section>
+
+  <section class="stop" id="bad">
+    <div class="stop-head">
+      <div class="num">06</div>
+      <h2><span class="de">Dein Bad</span><span class="en">Your bathroom</span></h2>
+      <p class="lead de">Modern und privat: ebenerdige Glasdusche mit Regenbrause, Waschtisch mit großem Spiegel, WC – und Pflegeprodukte stehen schon bereit.</p>
+      <p class="lead en">Modern and private: glass walk-in shower with rain shower head, vanity with large mirror, toilet – and toiletries are ready for you.</p>
+    </div>
+    <div class="grid">
+      <figure><img src="img/bath1.jpg" alt="Bad mit Dusche, Waschbecken und WC"></figure>
+      <figure><img src="img/bath2.jpg" alt="Pflegeprodukte und Gläser"></figure>
+    </div>
+    <div class="feats">
+      <span class="feat"><svg viewBox="0 0 24 24"><path d="M4 4h6a4 4 0 0 1 4 4v1M10 13v1M14 13v1M12 16v1M16 16v1M8 16v1"/></svg><span class="de">Regendusche</span><span class="en">Rain shower</span></span>
+      <span class="feat"><svg viewBox="0 0 24 24"><path d="M9 3h6v3H9zM8 6h8l1 15H7z"/></svg><span class="de">Pflegeprodukte</span><span class="en">Toiletries</span></span>
+      <span class="feat"><svg viewBox="0 0 24 24"><path d="M4 8h10a3 3 0 0 1 0 6H4zM9 14v6"/></svg><span class="de">Föhn</span><span class="en">Hair dryer</span></span>
+      <span class="feat"><svg viewBox="0 0 24 24"><path d="M4 4h16v10H4zM8 18h8"/></svg><span class="de">Handtücher</span><span class="en">Towels</span></span>
+    </div>
+  </section>
+
+  <section class="closing">
+    <h2><span class="de">Willkommen im Bayer 89</span><span class="en">Welcome to Bayer 89</span></h2>
+    <p class="de">Wir freuen uns auf deinen Besuch in München und wünschen dir einen erholsamen Aufenthalt.</p>
+    <p class="en">We look forward to welcoming you to Munich and wish you a relaxing stay.</p>
+  </section>
+</main>
+
+<footer>Bayerstraße 89 · München</footer>
+
+<div class="lb" role="dialog" aria-modal="true" aria-label="Foto">
+  <button class="x" aria-label="Schließen">✕</button>
+  <button class="p" aria-label="Zurück">‹</button>
+  <img alt="">
+  <button class="n" aria-label="Weiter">›</button>
+  <div class="cap"></div>
+</div>
+
+<script>
+(function(){
+  // language
+  var body=document.body, btns=document.querySelectorAll('.lang button');
+  function setLang(l){
+    body.dataset.lang=l; document.documentElement.lang=l;
+    btns.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.set===l)});
+    try{localStorage.setItem('rt-lang',l)}catch(e){}
+  }
+  var saved=null; try{saved=localStorage.getItem('rt-lang')}catch(e){}
+  setLang(saved||((navigator.language||'de').slice(0,2)==='de'?'de':'en'));
+  btns.forEach(function(b){b.onclick=function(){setLang(b.dataset.set)}});
+
+  // active nav
+  var links=[].slice.call(document.querySelectorAll('.nav a'));
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      links.forEach(function(a){
+        var on=a.getAttribute('href')==='#'+e.target.id;
+        a.classList.toggle('active',on);
+        if(on)a.scrollIntoView({block:'nearest',inline:'center'});
+      });
+    });
+  },{rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('.stop').forEach(function(s){io.observe(s)});
+
+  // lightbox
+  var imgs=[].slice.call(document.querySelectorAll('main figure img'));
+  var lb=document.querySelector('.lb'), big=lb.querySelector('img'), cap=lb.querySelector('.cap'), i=0;
+  function show(n){i=(n+imgs.length)%imgs.length;big.src=imgs[i].src;cap.textContent=(i+1)+' / '+imgs.length}
+  imgs.forEach(function(im,n){im.parentNode.onclick=function(){show(n);lb.classList.add('open')}});
+  lb.querySelector('.x').onclick=function(){lb.classList.remove('open')};
+  lb.querySelector('.p').onclick=function(e){e.stopPropagation();show(i-1)};
+  lb.querySelector('.n').onclick=function(e){e.stopPropagation();show(i+1)};
+  lb.onclick=function(e){if(e.target===lb)lb.classList.remove('open')};
+  document.addEventListener('keydown',function(e){
+    if(!lb.classList.contains('open'))return;
+    if(e.key==='Escape')lb.classList.remove('open');
+    if(e.key==='ArrowLeft')show(i-1);
+    if(e.key==='ArrowRight')show(i+1);
+  });
+  var x0=null;
+  lb.addEventListener('touchstart',function(e){x0=e.touches[0].clientX},{passive:true});
+  lb.addEventListener('touchend',function(e){if(x0===null)return;var d=e.changedTouches[0].clientX-x0;if(Math.abs(d)>40)show(i+(d<0?1:-1));x0=null});
+})();
+</script>
+</body>
+</html>
